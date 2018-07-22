@@ -10,6 +10,8 @@ module.exports = ({ config, db }) => {
   api.post('/create', (req, res) => {
     const client = Magento2Client(config.magento2.api);
 
+    console.log('request =' + JSON.stringify(req.body))
+
     request.post(config.extensions.paypal.api + '/v1/payments/payment', {
       auth: {
         user: config.extensions.paypal.client,
@@ -20,12 +22,7 @@ module.exports = ({ config, db }) => {
         payer: {
           payment_method: 'paypal'
         },
-        transactions: [{
-          amount: {
-            total: '5.99', // TODO: need get real data from client
-            currency: 'USD'
-          }
-        }],
+        transactions: req.body.transactions,
         redirect_urls: {
           return_url: 'https://www.mysite.com', // TODO: move to local.json
           cancel_url: 'https://www.mysite.com'
