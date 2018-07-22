@@ -19,9 +19,7 @@ module.exports = ({ config, db }) => {
       },
       body: {
         intent: 'sale',
-        payer: {
-          payment_method: 'paypal'
-        },
+        payer: { payment_method: 'paypal' },
         transactions: req.body.transactions,
         redirect_urls: {
           return_url: 'https://www.mysite.com', // TODO: move to local.json
@@ -48,7 +46,7 @@ module.exports = ({ config, db }) => {
 
     // 2. Get the payment ID and the payer ID from the request body.
     var paymentID = req.body.paymentID;
-    var payerID   = req.body.payerID;
+    var payerID = req.body.payerID;
 
     // 3. Call /v1/payments/payment/PAY-XXX/execute to finalize the payment.
     request.post(config.extensions.paypal.api + '/v1/payments/payment/' + paymentID + '/execute', {
@@ -58,12 +56,7 @@ module.exports = ({ config, db }) => {
       },
       body: {
         payer_id: payerID,
-        transactions: [{
-          amount: {
-            total: '10.99', // TODO: need get real data from client
-            currency: 'USD'
-          }
-        }]
+        transactions: req.body.transactions
       },
       json: true
     }, function (err, response) {
