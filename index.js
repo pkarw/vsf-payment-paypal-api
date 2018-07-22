@@ -7,7 +7,7 @@ module.exports = ({ config, db }) => {
 
   let api = Router();
 
-  api.get('/create', (req, res) => {
+  api.post('/create', (req, res) => {
     const client = Magento2Client(config.magento2.api);
 
     request.post(config.extensions.paypal.api + '/v1/payments/payment', {
@@ -46,7 +46,7 @@ module.exports = ({ config, db }) => {
 
   })
 
-  api.get('/execute', (req, res) => {
+  api.post('/execute', (req, res) => {
     const client = Magento2Client(config.magento2.api);
 
     // 2. Get the payment ID and the payer ID from the request body.
